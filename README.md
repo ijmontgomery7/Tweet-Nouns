@@ -1,5 +1,10 @@
 # Tweet-Nouns
 Find most common nouns of tweets
+
+to start make sure you have mongo python drivers
+'pip install pymongo[gssapi,srv,tls]'
+
+
 add json file with authentication details named `auth.json`
 ```
 {
