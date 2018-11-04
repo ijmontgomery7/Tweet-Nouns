@@ -1,4 +1,4 @@
-
+from pymongo import MongoClient
 import json
 
 
@@ -7,8 +7,9 @@ with open('auth.json') as f:
 
 mongoInfo = auth_info['mongo']
 
-clientURL = 'mongodb+srv://' + mongoInfo['username'] + ':' + mongoInfo['password'] + mongoInfo['server']
+client = MongoClient('mongodb+srv://' + mongoInfo['username'] + ':' + mongoInfo['password'] + mongoInfo['server'] + '/tweets')
 
+db = client.tweets
 
 
 
