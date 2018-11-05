@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 import json
 from tweepy import Stream, OAuthHandler, streaming
-
+import nltk
 
 with open('auth.json') as f:
     auth_info = json.load(f)
@@ -22,10 +22,13 @@ class StdOutListener(streaming.StreamListener):
 
     def on_data(self, data):
         data = json.loads(data)
-        insert = {'text': data['text'], 'created_at': data['created_at']}
 
 
-        print(insert)
+        if 'retweeted_status' not in data and data['lang'] == 'en':
+            #insert = {'text': data['text'], 'created_at': data['created_at']}
+            print([word for (word, pos) in nltk.pos_tag(nltk.word_tokenize(data['text'])) if pos[0] == 'N'])
+
+            #db.insert_one(insert)
         return True
 
     def on_error(self, status):
