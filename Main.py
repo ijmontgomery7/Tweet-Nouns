@@ -3,8 +3,6 @@ import json
 from tweepy import Stream, OAuthHandler, streaming
 
 
-
-
 with open('auth.json') as f:
     auth_info = json.load(f)
 
@@ -23,7 +21,11 @@ class StdOutListener(streaming.StreamListener):
     """
 
     def on_data(self, data):
-        print(data)
+        data = json.loads(data)
+        insert = {'text': data['text'], 'created_at': data['created_at']}
+
+
+        print(insert)
         return True
 
     def on_error(self, status):
