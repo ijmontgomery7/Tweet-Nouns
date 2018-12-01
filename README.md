@@ -5,7 +5,10 @@ to start make sure you have mongo python drivers and tweepy
 ```
 pip install pymongo[gssapi,srv,tls]
 pip install tweepy
+pip install nltk
 ```
+
+make sure to go through the entire nltk installation 
 
 add json file with authentication details named `auth.json`
 ```

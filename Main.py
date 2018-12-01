@@ -2,6 +2,7 @@ from pymongo import MongoClient
 import json
 from tweepy import Stream, OAuthHandler, streaming
 import nltk
+import re
 
 with open('auth.json') as f:
     auth_info = json.load(f)
@@ -12,7 +13,7 @@ twitterInfo = auth_info['twitter']
 
 client = MongoClient('mongodb+srv://' + mongoInfo['username'] + ':' + mongoInfo['password'] + mongoInfo['server'] + '/tweets')
 
-db = client.tweets
+db = client['tweets']
 
 
 class StdOutListener(streaming.StreamListener):
@@ -23,12 +24,16 @@ class StdOutListener(streaming.StreamListener):
     def on_data(self, data):
         data = json.loads(data)
 
-
         if 'retweeted_status' not in data and data['lang'] == 'en':
-            #insert = {'text': data['text'], 'created_at': data['created_at']}
-            print([word for (word, pos) in nltk.pos_tag(nltk.word_tokenize(data['text'])) if pos[0] == 'N'])
+            nouns = [word for (word, pos) in nltk.pos_tag(nltk.word_tokenize(data['text'])) if pos[0] == 'N']
+            for i in range(len(nouns)):
+                nouns[i] = re.sub('[^\x00-\x7F]', '', nouns[i])
+                nouns[i] = nouns[i].replace('@', '')
+            nouns = list(filter(None, nouns))
 
-            #db.insert_one(insert)
+            data = {'_id': str(data['id']), 'nouns': nouns}
+            db['tweets'].insert_one(data)
+
         return True
 
     def on_error(self, status):
