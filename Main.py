@@ -27,6 +27,7 @@ class StdOutListener(streaming.StreamListener):
         if 'retweeted_status' not in data and data['lang'] == 'en':
             nouns = [word for (word, pos) in nltk.pos_tag(nltk.word_tokenize(data['text'])) if pos[0] == 'N']
             for i in range(len(nouns)):
+                nouns[i] = nouns[i].lower()
                 nouns[i] = re.sub('[^\x00-\x7F]', '', nouns[i])
                 nouns[i] = nouns[i].replace('@', '')
                 nouns[i] = nouns[i].replace('http', '')
