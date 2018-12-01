@@ -18,7 +18,6 @@ db = client['tweets']
 cursor = db['tweets'].find({})
 for document in cursor:
     for item in document['nouns']:
-        print(item)
         new.write(item + '\n')
 
 

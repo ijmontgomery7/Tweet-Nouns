@@ -1,0 +1,1 @@
+python ToFile.py && python wordcount.py input.txt

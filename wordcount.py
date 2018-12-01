@@ -39,7 +39,6 @@ if __name__ == "__main__":
     output = counts.collect()
     output.sort(key=lambda x: float(x[1]), reverse=True)
     new = open("output.txt", "w+")
-    for i in range(6):
-        print("%s: %i" % (output[i][0], output[i][1]))
+    for i in range(5):
         new.write("%s: %i\n" % (output[i][0], output[i][1]))
     spark.stop()
