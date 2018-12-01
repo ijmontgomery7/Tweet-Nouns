@@ -32,6 +32,9 @@ class StdOutListener(streaming.StreamListener):
                 nouns[i] = nouns[i].replace('@', '')
                 nouns[i] = nouns[i].replace('http', '')
                 nouns[i] = nouns[i].replace('https', '')
+                nouns[i] = nouns[i].replace('s', '')
+
+                
             nouns = list(filter(None, nouns))
 
             data = {'_id': str(data['id']), 'nouns': nouns}
